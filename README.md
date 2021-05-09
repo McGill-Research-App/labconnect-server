@@ -1,13 +1,16 @@
 # Scripts
 
-`npm i` \
+### `npm i`
 Install packages
 
-`npm run watch` \
+### `npm run watch`
 Compiles `src/*.ts` to `dist/*.js` (Note: keep this running in separate console)
 
-`npm run dev` \
+### `npm run dev`
 Runs `index.js` (not `index.ts`) in nodemon
 
-`npm run clean` \
+### `npm run clean`
 Cleans `dist`
+
+### `npm run psql`
+Runs `psql labconnect` as __postgres__ user

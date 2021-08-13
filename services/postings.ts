@@ -17,6 +17,10 @@ export async function getMultiple() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 INTERFACE FOR POSTINGS SERVICE
+
+Assume you access these functions by either
+1. hit labconnect.com/postings/{function} and give it a JSON object with data, or;
+2. hit labconnect.com/postings/{function}/{id} where id is the posting id
 */
 
 /**

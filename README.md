@@ -1,16 +1,21 @@
-# Scripts
+# labconnect-server
 
-### `npm i`
-Install packages
+Express app boostrapped with MikroORM for GraphQL, made with TypeScript using TypeGraphQL.
 
-### `npm run watch`
-Compiles `src/*.ts` to `dist/*.js` (Note: keep this running in separate console)
+## Packages
 
-### `npm run dev`
-Runs `index.js` (not `index.ts`) in nodemon
+- [Node.js](https://nodejs.org/en/)
+- [MikroORM](https://mikro-orm.io/)
+- [GraphQL](https://graphql.org/)
+- [TypeGraphQL](https://typegraphql.com/)
+- [Typescript](https://www.typescriptlang.org/)
 
-### `npm run clean`
-Cleans `dist`
+## Commands
 
-### `npm run psql`
-Runs `psql labconnect` as __postgres__ user
+| Command           | Description                           |
+| ----------------- | ------------------------------------- |
+| `npm i`           | Install dependencies                  |
+| `npm run watch`   | Compiles `src/*.ts` to `dist/*.js`    |
+| `npm run dev`     | Runs `index.ts`                       |
+| `npm run clean`   | Removes `dist` directory              |
+| `npm run psql`    | Runs `psql labconnect`                |

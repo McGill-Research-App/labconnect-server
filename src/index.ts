@@ -1,38 +1,62 @@
 import { MikroORM } from "@mikro-orm/core";
-import { __prod__ } from "./constants";
-import { Post } from "./entities/Post";
-import mikroOrmConfig from "./mikro-orm.config";
-import express from "express";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core/dist/plugin/landingPage/graphqlPlayground";
 import { ApolloServer } from "apollo-server-express";
-import { GraphQLSchema } from "graphql";
+import express from "express";
 import { buildSchema } from "type-graphql";
-import { HelloResolver } from "./resolvers/hello";
-import { PostResolver } from "./resolvers/post";
+import { seedDatabase } from "./helpers";
+import mikroOrmConfig from "./mikro-orm.config";
+import { HelloResolver } from "./resolvers/hello-resolver";
+import { PostingResolver } from "./resolvers/posting-resolver";
+import { UserResolver } from "./resolvers/user-resolver";
 
 const main = async () => {
-    const orm = await MikroORM.init(mikroOrmConfig);
-    await orm.getMigrator().up();
-    // const post = orm.em.create(Post, {title: "my first ORM post"});
-    // await orm.em.persistAndFlush(post);
+  console.log(`Initializing database connection...`);
+  const orm = await MikroORM.init(mikroOrmConfig);
 
-    // create GraphQL endpoint on Express
-    const app = express();
-    const apolloServer = new ApolloServer({
-        schema: await buildSchema({
-            resolvers: [HelloResolver, PostResolver],
-            validate: false
-        }),
-        context: () => ({ em: orm.em })
-    })
+  console.log(`Setting up and cleaning the database...`);
+  const generator = orm.getSchemaGenerator();
+  await generator.dropSchema();
+  await generator.createSchema();
+  await generator.updateSchema();
+  const { defaultUser } = await seedDatabase(orm.em);
 
-    apolloServer.applyMiddleware({ app });
+  console.log(`Bootstrapping schema and server...`);
+  const app = express();
+  // const corsRequestHandler = cors(corsConfig);
+  // app.use(corsRequestHandler);
 
-    app.listen(4000, () => {
-        console.log('server started at localhost:4000');
-    });
-    
-}
+  // Redis
+
+  // Create GraphQL endpoint on Express
+  const apolloServer = new ApolloServer({
+    // Build TypeGraphQL executable schema
+    schema: await buildSchema({
+      resolvers: [HelloResolver, PostingResolver, UserResolver],
+      validate: false,
+      emitSchemaFile: true,
+    }),
+    context: () => ({
+      em: orm.em,
+      user: defaultUser,
+    }),
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+  });
+
+  await apolloServer.start();
+
+  // Mount Apollo middleware to Express
+  apolloServer.applyMiddleware({
+    app,
+    path: "/", // default path: "/graphql"
+  });
+
+  // Start server
+  await new Promise<void>((resolve) => app.listen({ port: 4000 }, resolve));
+  console.log(
+    `🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`
+  );
+};
 
 main().catch((err) => {
-    console.log(err);
+  console.log(err);
 });

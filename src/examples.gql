@@ -1,0 +1,18 @@
+query SayHelloName($name: String = "Bob"){
+  sayHelloName(name: $name)
+}
+
+mutation CreateUser {
+  createUser(user: { name: "Douglas", email: "douglas@mail.com", age: 23 }) {
+    id
+    createdAt
+    updatedAt
+    name
+    email
+    age
+    born
+    termsAccepted
+  }
+}
+
+

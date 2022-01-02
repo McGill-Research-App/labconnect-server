@@ -19,3 +19,8 @@ Express app boostrapped with MikroORM for GraphQL, made with TypeScript using Ty
 | `npm run dev`     | Runs `index.ts`                       |
 | `npm run clean`   | Removes `dist` directory              |
 | `npm run psql`    | Runs `psql labconnect`                |
+
+## Issues
+
+- [bug] Validators not working as intended (`src/contracts/validators`)
+- [model] Remove requirements field -- Professor should include into description field

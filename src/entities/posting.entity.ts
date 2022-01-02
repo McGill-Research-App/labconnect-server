@@ -24,13 +24,25 @@ export class Posting extends Base<Posting> {
   @Property({ nullable: true })
   description?: string;
 
+  @Field({ nullable: true })
+  @Property({ nullable: true })
+  requirements?: string;
+
   @Field(() => User)
   @ManyToOne(() => User)
   author: User;
 
+  @Field({ nullable: true })
+  @Property({ nullable: true })
+  department?: string;
+
   @Field(() => [Tag])
   @ManyToMany(() => Tag)
   tags = new Collection<Tag>(this);
+
+  // @Field({nullable: true})
+  // @Property({nullable: true})
+  // application = new Collection<Application>(this);
 
   constructor(body: PostingValidator, em: EntityManager) {
     super(body, em);

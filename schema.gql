@@ -16,10 +16,12 @@ type Mutation {
 type Posting {
   author: User!
   createdAt: DateTime!
+  department: String
   description: String
   employer: String!
   id: ID!
   location: String!
+  requirements: String
   tags: [Tag!]!
   title: String!
   updatedAt: DateTime!

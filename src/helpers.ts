@@ -9,6 +9,8 @@ export async function seedDatabase(em: EntityManager) {
     email: "douglas@mail.com",
     name: "Douglas So",
     age: 23,
+    status: 1,
+    role: "admin",
   });
   em.persist(defaultUser);
 
@@ -22,14 +24,13 @@ export async function seedDatabase(em: EntityManager) {
   em.persist(posting1);
 
   for (let i = 0; i < 10; i++) {
-    const user = new User(
-      {
-        email: faker.internet.email(),
-        name: faker.name.findName(),
-        age: faker.datatype.number({ min: 16, max: 60 }),
-      },
-      em
-    );
+    const user = em.create(User, {
+      email: faker.internet.email(),
+      name: faker.name.findName(),
+      age: faker.datatype.number({ min: 16, max: 60 }),
+      status: 1,
+      role: "user",
+    });
     em.persist(user);
 
     const posting = em.create(Posting, {

@@ -13,4 +13,5 @@ export default {
   type: "postgresql",
   debug: !__prod__,
   metadataProvider: ReflectMetadataProvider,
+  validate: true
 } as Parameters<typeof MikroORM.init>[0];
